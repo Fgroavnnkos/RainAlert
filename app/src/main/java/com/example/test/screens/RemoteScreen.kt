@@ -1,14 +1,21 @@
 package com.example.test.screens
 
-import android.Manifest
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,14 +25,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.test.data.remote.WeatherClient
 import com.example.test.data.remote.WeatherRepository
 import com.example.test.data.remote.WeatherResponse
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 
+@Composable
+fun intro() {
+
+        Column(
+            modifier = Modifier.padding(start = 20.dp, end = 16.dp, top = 8.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Вести с API",
+                style = MaterialTheme.typography.displaySmall
+            )
+            Text(
+                text = "Тут можно вручную повзаимодействовать с api. " +
+                        "Учтите, что из-за блокировок запросы могут не доходить до API.",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+        }
+
+    }
 @Composable
 fun makeACall() {
 
@@ -47,96 +73,94 @@ fun makeACall() {
 
     val context = LocalContext.current
 
-    val fusedLocationClient = remember {
-        LocationServices.getFusedLocationProviderClient(context)
-    }
+        Column(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = BorderStroke(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+
+            ) {
+                Column (
+                    modifier = Modifier.padding(all=12.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+
+                    weather.value?.let { result ->
+
+                        for ( i in result.minutely15.time.indices) {
+
+                            Card(
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = MaterialTheme.colorScheme.onBackground
+                                ),
+                                border = BorderStroke(
+                                    width = 2.dp,
+                                    color = MaterialTheme.colorScheme.outline
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(all=8.dp)
+                                        .fillMaxWidth(),
 
 
-    val locationPermission = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
+                                ) {
+                                    Text("Время: ${result.minutely15.time[i]}")
+                                    Text("Дождь: ${result.minutely15.rain[i]}")
+                                    Text("Снег: ${result.minutely15.snowfall[i]}")
+                                }
+                            }
+                    }
+                    }
+                }
+            }
 
-        if (isGranted) {
-            fusedLocationClient.getCurrentLocation(
-                Priority.PRIORITY_HIGH_ACCURACY,
-                CancellationTokenSource().token
-            ).addOnSuccessListener { location ->
-
-                if (location != null) {
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-
+            Button(
+                onClick = {
                     scope.launch {
-                        errorMessage.value = null
 
                         try {
+
                             val result = repository.getWeather(
-                                latitude = latitude,
-                                longitude = longitude
+                                latitude = 59.871551,
+                                longitude = 30.306622
                             )
 
                             weather.value = result
 
-                            Log.d("Weather", "Получен ответ: $result")
-
                         } catch (e: Exception) {
-                            errorMessage.value = e.message
+
                             Log.e("Weather", "Ошибка запроса", e)
+
                         }
                     }
-                } else {
-                    errorMessage.value = "Не удалось определить местоположение"
                 }
-            }.addOnFailureListener { e ->
-                errorMessage.value = e.message
+            ) {
+                Text("push me")
             }
-
-        } else {
-            errorMessage.value = "Нет разрешения на геолокацию"
         }
     }
-
-
-
-
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box() {
-            Button(
-                onClick = {
-                    locationPermission.launch(
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    )
-                }
-                    )
-                    {
-                    if (errorMessage.value != null) {
-                        Text("Ошибка: ${errorMessage.value}")
-                    } else {
-                        Text("Press to make a call")
-                    }
-                }
-
-        }
-
-        weather.value?.let { result ->
-
-            Text("Times: ${result.minutely15.time}")
-
-            Text("Rain: ${result.minutely15.rain}")
-
-            Text("Snowfall: ${result.minutely15.snowfall}")
-
-            Text("Precipitation: ${result.minutely15.precipitation}")
-        }
-    }
-}
 @Preview(showBackground = true)
 @Composable
 fun RemoteScreen () {
-    makeACall()
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        intro()
+        makeACall()
+    }
 }
