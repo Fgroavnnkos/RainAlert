@@ -1,4 +1,7 @@
 package com.example.test.data.remote
+
+import com.google.gson.annotations.SerializedName
+
 //https://api.open-meteo.com/v1/forecast?
 // latitude=59.871551&
 // longitude=30.306622&
@@ -7,10 +10,11 @@ package com.example.test.data.remote
 // forecast_minutely_15=4
 data class WeatherResponse(
 
-    val minutley_15: Minutley15
+    @SerializedName("minutely_15")
+    val minutely15: Minutely15
 )
 
-data class Minutley15(
+data class Minutely15(
 
     val time: List<String>,
 
@@ -18,7 +22,7 @@ data class Minutley15(
 
     val snowfall: List<Double>,
 
-    val percipitation: List<Double>,
+    val precipitation: List<Double>,
 
 
 )
