@@ -153,6 +153,38 @@ object AppColors {
 }
 */
 
+/*
+
+object AppColors {
+    //розовый + слоновая кость (тёмная тема)
+    //https://coolors.co/2c363f-e75a7c-f2f5ea-d6dbd2
+    val primary = Color(0xFFB83255)
+    val onPrimary = Color(0xFFFFFFFF)
+
+    val secondary = Color(0xFFE75A7C)
+    val onSecondary = Color(0xFF17151A)
+
+    // Фон приложения
+    val background = Color(0xFF2C363F)
+    val onBackground = Color(0xFFF2F5EA)
+
+    // Поверхности: карточки, блоки
+    val surface = Color(0xFFD6DBD2)
+    val onSurface = Color(0xFF2C363F)
+
+    val surfaceVariant = Color(0xFFE7EAE2)
+    val onSurfaceVariant = Color(0xFF454B50)
+
+    // Границы
+    val outline = Color(0xFF92998F)
+
+    // Ошибки
+    val error = Color(0xFFB3261E)
+    val onError = Color.White
+
+}
+*/
+
 object AppColors {
     //розовый + слоновая кость
     //https://coolors.co/2c363f-e75a7c-f2f5ea-d6dbd2

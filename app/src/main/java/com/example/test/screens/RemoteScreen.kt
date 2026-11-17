@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -52,7 +53,7 @@ fun Intro() {
 @Composable
 fun MakeACall() {
 
-    val repository =  remember {
+    val repository = remember {
         WeatherRepository(
             weatherApi = WeatherClient.api
         )
@@ -70,60 +71,67 @@ fun MakeACall() {
 
     val context = LocalContext.current
 
-        Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Column(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
 
-        ) {
+    ) {
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                border = BorderStroke(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            ),
+            border = BorderStroke(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.onBackground
+            ),
 
             ) {
-                Column (
-                    modifier = Modifier.padding(all=12.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
+            Column(
+                modifier = Modifier.padding(all = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
 
-                    weather.value?.let { result ->
+                weather.value?.let { result ->
 
-                        for ( i in result.minutely15.time.indices) {
+                    for (i in result.minutely15.time.indices) {
 
-                            Card(
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                    contentColor = MaterialTheme.colorScheme.onBackground
-                                ),
-                                border = BorderStroke(
-                                    width = 2.dp,
-                                    color = MaterialTheme.colorScheme.outline
-                                )
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(all=8.dp)
-                                        .fillMaxWidth(),
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                contentColor = MaterialTheme.colorScheme.onBackground
+                            ),
+                            border = BorderStroke(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.outline
+                            )
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(all = 8.dp)
+                                    .fillMaxWidth(),
 
 
                                 ) {
-                                    Text("${result.minutely15.time[i].substringBefore('T')}  ${
-                                        result.minutely15.time[i].substringAfter('T')
-                                    }")
+                                ProvideTextStyle(
+                                    value = MaterialTheme.typography.bodyLarge
+                                ) {
+                                    Text(
+                                        text = "${result.minutely15.time[i].substringBefore('T')}  ${
+                                            result.minutely15.time[i].substringAfter('T')
+                                        }",
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
                                     Text("Дождь: ${result.minutely15.rain[i]}")
                                     Text("Снег: ${result.minutely15.snowfall[i]}")
                                 }
                             }
-                    }
+                        }
                     }
                 }
             }
+        }
 
             Button(
                 onClick = {
@@ -150,6 +158,7 @@ fun MakeACall() {
             }
         }
     }
+
 @Preview(showBackground = true)
 @Composable
 fun RemoteScreen () {
