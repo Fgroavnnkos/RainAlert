@@ -153,7 +153,7 @@ object AppColors {
 }
 */
 
-/*
+
 
 object AppColors {
     //розовый + слоновая кость (тёмная тема)
@@ -169,10 +169,10 @@ object AppColors {
     val onBackground = Color(0xFFF2F5EA)
 
     // Поверхности: карточки, блоки
-    val surface = Color(0xFFD6DBD2)
-    val onSurface = Color(0xFF2C363F)
+    val surface = Color(0xFF41474D)
+    val onSurface = Color(0xFFD6DBD2)
 
-    val surfaceVariant = Color(0xFFE7EAE2)
+    val surfaceVariant = Color(0xFF373F46)
     val onSurfaceVariant = Color(0xFF454B50)
 
     // Границы
@@ -183,8 +183,8 @@ object AppColors {
     val onError = Color.White
 
 }
-*/
 
+/*
 object AppColors {
     //розовый + слоновая кость
     //https://coolors.co/2c363f-e75a7c-f2f5ea-d6dbd2
@@ -213,3 +213,5 @@ object AppColors {
     val onError = Color.White
 
 }
+
+ */

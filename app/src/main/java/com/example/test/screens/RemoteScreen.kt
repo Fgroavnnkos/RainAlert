@@ -105,7 +105,7 @@ fun MakeACall() {
                             ),
                             border = BorderStroke(
                                 width = 2.dp,
-                                color = MaterialTheme.colorScheme.outline
+                                color = MaterialTheme.colorScheme.primary
                             )
                         ) {
                             Column(
@@ -115,13 +115,13 @@ fun MakeACall() {
 
                                 ) {
                                 ProvideTextStyle(
-                                    value = MaterialTheme.typography.bodyLarge
+                                    value = MaterialTheme.typography.titleMedium
                                 ) {
                                     Text(
                                         text = "${result.minutely15.time[i].substringBefore('T')}  ${
                                             result.minutely15.time[i].substringAfter('T')
                                         }",
-                                        color = MaterialTheme.colorScheme.primary
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text("Дождь: ${result.minutely15.rain[i]}")
                                     Text("Снег: ${result.minutely15.snowfall[i]}")
