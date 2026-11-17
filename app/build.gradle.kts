@@ -73,4 +73,7 @@ dependencies {
     // Network
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+
+    //GPS
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }
