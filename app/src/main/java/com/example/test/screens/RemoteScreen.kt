@@ -3,13 +3,10 @@ package com.example.test.screens
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -32,7 +29,7 @@ import com.example.test.data.remote.WeatherResponse
 import kotlinx.coroutines.launch
 
 @Composable
-fun intro() {
+fun Intro() {
 
         Column(
             modifier = Modifier.padding(start = 20.dp, end = 16.dp, top = 8.dp),
@@ -53,7 +50,7 @@ fun intro() {
 
     }
 @Composable
-fun makeACall() {
+fun MakeACall() {
 
     val repository =  remember {
         WeatherRepository(
@@ -116,7 +113,9 @@ fun makeACall() {
 
 
                                 ) {
-                                    Text("Время: ${result.minutely15.time[i]}")
+                                    Text("${result.minutely15.time[i].substringBefore('T')}  ${
+                                        result.minutely15.time[i].substringAfter('T')
+                                    }")
                                     Text("Дождь: ${result.minutely15.rain[i]}")
                                     Text("Снег: ${result.minutely15.snowfall[i]}")
                                 }
@@ -160,7 +159,7 @@ fun RemoteScreen () {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        intro()
-        makeACall()
+        Intro()
+        MakeACall()
     }
 }
