@@ -1,21 +1,24 @@
 package com.example.test.data.remote
+//https://api.open-meteo.com/v1/forecast?
+// latitude=59.871551&
+// longitude=30.306622&
+// minutely_15=rain,snowfall,precipitation&
+// timezone=Europe%2FMoscow&
+// forecast_minutely_15=4
+data class WeatherResponse(
 
-data class MinuteForecastResponse(
-
-    val lat: Double,
-
-    val lon: Double,
-
-    val timezone: String,
-
-    val data: List<MinuteForecast>
-
+    val minutley_15: Minutley15
 )
 
-data class MinuteForecast(
+data class Minutley15(
 
-    val dt: Long,
+    val time: List<String>,
 
-    val precipitation: Double?
+    val rain: List<Double>,
+
+    val snowfall: List<Double>,
+
+    val percipitation: List<Double>,
+
 
 )
