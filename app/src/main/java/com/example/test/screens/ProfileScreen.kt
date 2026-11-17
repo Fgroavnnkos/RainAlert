@@ -105,7 +105,7 @@ fun ProfileDescription(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = "О себе",
+            text = "О себе test",
             style = MaterialTheme.typography.displaySmall
         )
 
